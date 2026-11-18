@@ -30,14 +30,16 @@ const server = createServer((req, res) => {
     return;
   }
 
-  const type = mimeTypes[extname(thisPath)] || 'application/octet-stream';
-  res.setHeader('Content-Type', type);
+
 
   readFile(thisPath, (err,data) => {
     if(err){
+      res.setHeader('Content-Type', 'text/html')
       res.statusCode = 404;
       res.end('Not found\n' + err);
     }else{
+      const type = mimeTypes[extname(thisPath)] || 'application/octet-stream';
+      res.setHeader('Content-Type', type);
       res.statusCode = 200;
       res.end(data);
     }
